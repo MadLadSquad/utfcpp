@@ -1,0 +1,40 @@
+name: Create automatic pr
+# Set your repository name and the branch you want to pull from
+env:
+  REPO_NAME: "kcat/openal-soft"
+  BRANCH: "master"
+  UPSTREAM_BRANCH: "master"
+  NAME: "openal-soft"
+  
+on:
+  schedule:
+    - cron:  "0 0 * * *"
+
+jobs:
+  Update-Fork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out code
+        uses: actions/checkout@v2
+      - name: extract git commit data
+        uses: rlespinasse/git-commit-data-action@v1.x
+      - name: Check if branches are different
+        shell: bash
+        id: check
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/${{ env.REPO_NAME }}.git
+          git fetch
+          git fetch upstream
+          ahead=$(git rev-list --count origin/${{ env.BRANCH }}..upstream/${{ env.UPSTREAM_BRANCH }})
+          echo "::set-output name=ahead::${ahead}"
+      - name: Issue
+        if: steps.check.outputs.ahead != '0'
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/auto-issue-template.md
+          update_existing: true
+          search_existing: all
