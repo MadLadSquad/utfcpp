@@ -1,14 +1,16 @@
 name: Create automatic pr
 # Set your repository name and the branch you want to pull from
 env:
-  REPO_NAME: "kcat/openal-soft"
+  REPO_NAME: "netmtrif/utfcpp"
   BRANCH: "master"
   UPSTREAM_BRANCH: "master"
-  NAME: "openal-soft"
+  NAME: "utfcpp"
   
 on:
   schedule:
     - cron:  "0 20 * * *"
+  push:
+    branches: [master]
 
 jobs:
   Update-Fork:
