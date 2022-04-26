@@ -1,7 +1,7 @@
 name: Create automatic pr
 # Set your repository name and the branch you want to pull from
 env:
-  REPO_NAME: "netmtrif/utfcpp"
+  REPO_NAME: "nemtrif/utfcpp"
   BRANCH: "master"
   UPSTREAM_BRANCH: "master"
   NAME: "utfcpp"
