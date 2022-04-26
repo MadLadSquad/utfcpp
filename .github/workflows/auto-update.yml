@@ -27,7 +27,7 @@ jobs:
           git remote add upstream https://github.com/${{ env.REPO_NAME }}.git
           git fetch
           git fetch upstream
-          echo "\x1B]32m-------------------------------\x1B[0m"
+          echo -e "\x1B]32m-------------------------------\x1B[0m"
           echo "::set-output name=ahead::$(git rev-list --count origin/${{ env.BRANCH }}..upstream/${{ env.UPSTREAM_BRANCH }})\n"
       - name: Issue
         if: steps.check.outputs.ahead > 0
